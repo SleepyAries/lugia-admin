@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { createRoute } from "@lugia/lugiax-router";
+import { createRoute, Redirect } from "@lugia/lugiax-router";
 
 import styled from "styled-components";
 import Pages from "./pages";
@@ -17,10 +17,32 @@ export const firstRouter = {
     exact: true,
     render: async () => import("./login")
   },
+  "/404": {
+    render: async () => import("./pages/abnormal/404")
+  },
+  "/403": {
+    render: async () => import("./pages/abnormal/403")
+  },
+  "/500": {
+    render: async () => import("./pages/abnormal/500")
+  },
   "/": {
     // exact: true,
     component: Pages
-  }
+  },
+  NotFound: {
+    isHidden: true,
+    render: async () => {
+      return () => (
+        <Redirect
+          to={{
+            path: "/404"
+          }}
+        />
+      );
+    }
+  },
+
 };
 
 export default () => {
